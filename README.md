@@ -1,4 +1,4 @@
-# commutity_feed
+# community_feed
 
 간단히 사용자들과 소통할 수 있는 게시판 서비스
 
