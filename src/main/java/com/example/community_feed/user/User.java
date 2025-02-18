@@ -36,9 +36,4 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserState state;
 
-    public static User toEntity(UserDto.SignUpRequestDto userDto) {
-        return User.builder()
-                .email(userDto.getEmail())
-                .build();
-    }
 }
