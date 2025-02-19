@@ -23,8 +23,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserRequestDto.LoginRequestDto loginRequestDto) {
-        userService.login(loginRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
+        String token = userService.login(loginRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
 }
