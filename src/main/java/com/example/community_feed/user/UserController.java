@@ -20,11 +20,4 @@ public class UserController {
         userService.signup(signUpRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserRequestDto.LoginRequestDto loginRequestDto) {
-        String token = userService.login(loginRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(token);
-    }
-
 }
