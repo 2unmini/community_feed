@@ -1,7 +1,6 @@
 package com.example.community_feed.user;
 
 import com.example.community_feed.commons.constant.Role;
-import com.example.community_feed.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
     public void signup(UserRequestDto.SignUpRequestDto signUpRequestDto) {
         boolean isExisted = userRepository.existsUserByEmail(signUpRequestDto.getEmail());
@@ -37,18 +35,5 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(username).orElseThrow(() -> new IllegalArgumentException("유효한 사용자가 아닙니다"));
         return new CustomUser(user);
 
-    }
-
-    public String login(UserRequestDto.LoginRequestDto loginRequestDto) {
-
-        User user = userRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("로그인 실패"));
-        boolean isMatched = passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword());
-        if (!isMatched) {
-            throw new IllegalArgumentException("유효한 사용자 정보가 아닙니다");
-        }
-
-        log.info("로그인한 사용자 : {}", user.getEmail());
-
-        return jwtUtil.generateToken(user.getEmail(),user.getRole());
     }
 }
