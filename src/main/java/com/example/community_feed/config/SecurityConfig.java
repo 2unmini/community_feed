@@ -1,5 +1,6 @@
 package com.example.community_feed.config;
 
+import com.example.community_feed.commons.filter.JwtFilter;
 import com.example.community_feed.commons.filter.LoginFilter;
 import com.example.community_feed.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -56,11 +57,11 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/users/signup").permitAll()
+                        .requestMatchers("/api/users/signup", "/login").permitAll()
+                        .requestMatchers("/api/users/withdraw").authenticated()
                         .anyRequest().authenticated());
-
         httpSecurity.addFilterAt(new LoginFilter(authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-
+        httpSecurity.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
         return httpSecurity.build();
     }
 }

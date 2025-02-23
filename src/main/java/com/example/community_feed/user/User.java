@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
+import static com.example.community_feed.commons.constant.UserState.INACTIVE;
+
 @Entity
 @Getter
 @Builder
@@ -35,5 +37,9 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "varchar(50) default 'ACTIVE'")
     @Enumerated(EnumType.STRING)
     private UserState state;
+
+    public void updateState() {
+        this.state = INACTIVE;
+    }
 
 }
