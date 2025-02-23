@@ -4,5 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum UserState {
-    ACTIVE,INACTIVE;
+    ACTIVE, INACTIVE;
+
 }
+
