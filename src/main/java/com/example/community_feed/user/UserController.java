@@ -21,8 +21,10 @@ public class UserController {
     }
 
     @PatchMapping("/withdraw")
-    public void withdraw(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<String> withdraw(@AuthenticationPrincipal UserDetails userDetails) {
         userService.withdraw(userDetails.getUsername());
+        return ResponseEntity.status(HttpStatus.OK).body("회원탈퇴 성공");
+
     }
 
 

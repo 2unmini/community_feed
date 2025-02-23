@@ -57,7 +57,8 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/users/signup","/login").permitAll()
+                        .requestMatchers("/api/users/signup", "/login").permitAll()
+                        .requestMatchers("/api/users/withdraw").authenticated()
                         .anyRequest().authenticated());
         httpSecurity.addFilterAt(new LoginFilter(authenticationManager(), jwtUtil), UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
