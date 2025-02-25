@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserState state;
 
-    public void updateState() {
+    public void inactive() {
         this.state = INACTIVE;
     }
 
