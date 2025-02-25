@@ -32,8 +32,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new IllegalArgumentException("유효한 사용자가 아닙니다"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유효한 사용자가 아닙니다"));
         return new CustomUser(user);
 
     }
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
     public void withdraw(String email) {
 
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("유효한 사용자가 아닙니다"));
-        user.updateState();
+        user.inactive();
 
     }
 }
