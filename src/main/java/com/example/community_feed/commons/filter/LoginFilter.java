@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +45,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Role userRole = Role.valueOf(role.replace("ROLE_", ""));
         String token = jwtUtil.generateToken(email, userRole);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
     }
 
