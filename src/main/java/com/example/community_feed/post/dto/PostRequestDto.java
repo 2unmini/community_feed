@@ -4,16 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
+@Getter
+@AllArgsConstructor
 public class PostRequestDto {
-    @Getter
     @AllArgsConstructor
+    @Getter
     public static class CreatePostDto {
-
+        // todo 유효성 추가
         private String title;
 
         private String text;
 
-        private MultipartFile multipartFile;
+        private MultipartFile image;
     }
 
 }
