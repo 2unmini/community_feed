@@ -2,7 +2,6 @@ package com.example.community_feed.post.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -15,7 +14,7 @@ public class PostRequestDto {
 
         private String text;
 
-        private MultipartFile image;
+        private String imageUrl;
     }
 
 }
