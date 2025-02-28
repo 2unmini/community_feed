@@ -5,16 +5,12 @@ import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
 import com.example.community_feed.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static com.example.community_feed.commons.constant.UserState.ACTIVE;
 
 @RequiredArgsConstructor
 @Service
@@ -42,9 +38,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponseDto.SearchResponseDto> searchPost(int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
-        Page<Post> allPost = postRepository.findAllPost(ACTIVE, pageable);
+    public List<PostResponseDto.SearchResponseDto> searchPost(int page, int size, String email, String title) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<Post> allPost = postRepository.findAllPost(email, title, pageable);
         return allPost.stream().map(Post::toDto).toList();
 
     }

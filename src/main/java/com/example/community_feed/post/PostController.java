@@ -27,7 +27,9 @@ public class PostController {
     @GetMapping
     public ResponseEntity<List<PostResponseDto.SearchResponseDto>> searchPost(
             @RequestParam(required = false, defaultValue = "1") int page,
-            @RequestParam(required = false, defaultValue = "10") int size) {
-        return ResponseEntity.ok().body(postService.searchPost(page, size));
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String title) {
+        return ResponseEntity.ok().body(postService.searchPost(page, size, email, title));
     }
 }

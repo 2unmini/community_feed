@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, PostQueryDslRepository {
     @Query("SELECT p FROM Post p join fetch p.user u where  u.state=:state")
-    Page<Post> findAllPost(@Param("state") UserState userState, Pageable pageable);
+    Page<Post> findAllPost(@Param("state") UserState userState, Pageable pageable); // 피드백 받고 지울예정
 }
