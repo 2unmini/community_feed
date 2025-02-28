@@ -19,6 +19,8 @@ public class ImageService {
     @Value("${aws.bucket}")
     private String bucket;
 
+    private static final int FILE_SIZE = 5 * 1024 * 1024;
+
     private static final String[] PERMITTED_FILE_EXTENSIONS = {"jpg", "png"};
 
     public String upload(MultipartFile multipartFile) {
@@ -46,7 +48,7 @@ public class ImageService {
     }
 
     private boolean isValid(MultipartFile file) {
-        if (!isExtension(file.getOriginalFilename()) || file.getSize() > 5 * 1024 * 1024) {
+        if (!isExtension(file.getOriginalFilename()) || file.getSize() > FILE_SIZE) {
             return false;
         }
 
