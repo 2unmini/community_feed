@@ -3,6 +3,8 @@ package com.example.community_feed.post.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 
 public class PostResponseDto {
@@ -13,6 +15,15 @@ public class PostResponseDto {
         private String username;
         private String text;
         private String image;
+    }
+
+    @Getter
+    @Builder
+    public static class SearchResponseDto {
+        private String title;
+        private String username;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
     }
 
 }

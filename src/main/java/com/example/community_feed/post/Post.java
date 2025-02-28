@@ -1,6 +1,7 @@
 package com.example.community_feed.post;
 
 import com.example.community_feed.commons.entity.BaseEntity;
+import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,12 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public static PostResponseDto.SearchResponseDto toDto(Post post) {
+        return PostResponseDto.SearchResponseDto.builder()
+                .title(post.getTitle())
+                .username(post.getUser().getEmail())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .build();
+    }
 }
