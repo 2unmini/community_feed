@@ -26,4 +26,15 @@ public class PostResponseDto {
         private LocalDateTime updatedAt;
     }
 
+    @Getter
+    @Builder
+    public static class SearchDetailResponseDto {
+        private String title;
+        private String username;
+        private String text;
+        private String image;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+    }
+
 }

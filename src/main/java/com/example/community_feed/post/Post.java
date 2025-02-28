@@ -38,4 +38,15 @@ public class Post extends BaseEntity {
                 .updatedAt(post.getUpdatedAt())
                 .build();
     }
+
+    public static PostResponseDto.SearchDetailResponseDto toDetailDto(Post post) {
+        return PostResponseDto.SearchDetailResponseDto.builder()
+                .title(post.getTitle())
+                .username(post.getUser().getEmail())
+                .text(post.getText())
+                .image(post.getImage())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .build();
+    }
 }

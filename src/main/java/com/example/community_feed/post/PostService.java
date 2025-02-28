@@ -1,5 +1,6 @@
 package com.example.community_feed.post;
 
+import com.example.community_feed.commons.constant.UserState;
 import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
@@ -43,5 +44,11 @@ public class PostService {
         List<Post> allPost = postRepository.findAllPost(email, title, pageable);
         return allPost.stream().map(Post::toDto).toList();
 
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponseDto.SearchDetailResponseDto searchDetailPost(Long id) {
+        Post post = postRepository.findByIdAndUserState(id, UserState.ACTIVE).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        return Post.toDetailDto(post);
     }
 }

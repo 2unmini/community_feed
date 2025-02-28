@@ -32,4 +32,9 @@ public class PostController {
             @RequestParam(required = false) String title) {
         return ResponseEntity.ok().body(postService.searchPost(page, size, email, title));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDto.SearchDetailResponseDto> searchDetail(@PathVariable Long id) {
+        return ResponseEntity.ok().body(postService.searchDetailPost(id));
+    }
 }
