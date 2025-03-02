@@ -1,6 +1,5 @@
 package com.example.community_feed.post;
 
-import com.example.community_feed.commons.constant.UserState;
 import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
@@ -46,7 +45,15 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponseDto.SearchDetailResponseDto searchDetailPost(Long id) {
-        Post post = postRepository.findByIdAndUserState(id, UserState.ACTIVE).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        Post post = postRepository.findByIdAndUserState(id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
         return PostResponseDto.toDetailDto(post);
+    }
+
+    @Transactional
+    public PostResponseDto.SearchResponseDto updatePost(String email, Long id, PostRequestDto.UpdatePostDto updatePostDto) {
+        Post post = postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        post.Update(updatePostDto);
+        postRepository.save(post);
+        return PostResponseDto.toDto(post);
     }
 }
