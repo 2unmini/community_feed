@@ -17,4 +17,13 @@ public class PostRequestDto {
         private String imageUrl;
     }
 
+    @AllArgsConstructor
+    @Getter
+    public static class UpdatePostDto {
+
+        private String title;
+
+        private String text;
+    }
+
 }

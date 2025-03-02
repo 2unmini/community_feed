@@ -20,4 +20,9 @@ public class ImageController {
         String imageUrl = imageService.upload(file);
         return ResponseEntity.status(HttpStatus.CREATED).body(imageUrl);
     }
+
+    /*@DeleteMapping
+    public ResponseEntity<Void> deleteImage(){
+        imageService.delete();
+    }*/
 }
