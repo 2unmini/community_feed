@@ -42,13 +42,13 @@ public class PostService {
     public List<PostResponseDto.SearchResponseDto> searchPost(int page, int size, String email, String title) {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<Post> allPost = postRepository.findAllPost(email, title, pageable);
-        return allPost.stream().map(Post::toDto).toList();
+        return allPost.stream().map(PostResponseDto::toDto).toList();
 
     }
 
     @Transactional(readOnly = true)
     public PostResponseDto.SearchDetailResponseDto searchDetailPost(Long id) {
         Post post = postRepository.findByIdAndUserState(id, UserState.ACTIVE).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
-        return Post.toDetailDto(post);
+        return PostResponseDto.toDetailDto(post);
     }
 }

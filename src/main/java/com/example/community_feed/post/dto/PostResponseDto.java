@@ -1,5 +1,6 @@
 package com.example.community_feed.post.dto;
 
+import com.example.community_feed.post.Post;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,6 +36,26 @@ public class PostResponseDto {
         private String image;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+    }
+
+    public static PostResponseDto.SearchResponseDto toDto(Post post) {
+        return PostResponseDto.SearchResponseDto.builder()
+                .title(post.getTitle())
+                .username(post.getUser().getEmail())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .build();
+    }
+
+    public static PostResponseDto.SearchDetailResponseDto toDetailDto(Post post) {
+        return PostResponseDto.SearchDetailResponseDto.builder()
+                .title(post.getTitle())
+                .username(post.getUser().getEmail())
+                .text(post.getText())
+                .image(post.getImage())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .build();
     }
 
 }
