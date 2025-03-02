@@ -3,13 +3,12 @@ package com.example.community_feed.post;
 import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponseDto.SearchResponseDto>> searchPost(
+    public ResponseEntity<Page<PostResponseDto.SearchResponseDto>> searchPost(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
             @RequestParam(required = false) String email,
