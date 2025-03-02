@@ -30,7 +30,7 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public void Update(PostRequestDto.UpdatePostDto postRequestDto) {
+    public void update(PostRequestDto.UpdatePostDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.text = postRequestDto.getText();
     }

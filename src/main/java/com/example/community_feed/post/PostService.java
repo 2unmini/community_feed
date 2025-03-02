@@ -1,5 +1,6 @@
 package com.example.community_feed.post;
 
+import com.example.community_feed.image.ImageService;
 import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
 
     public PostResponseDto.CreateResponseDto write(String username, PostRequestDto.CreatePostDto createPostDto) {
 
@@ -51,15 +53,24 @@ public class PostService {
 
     @Transactional
     public PostResponseDto.SearchResponseDto updatePost(String email, Long id, PostRequestDto.UpdatePostDto updatePostDto) {
-        Post post = postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
-        post.Update(updatePostDto);
+        Post post = getPost(email, id);
+        post.update(updatePostDto);
         postRepository.save(post);
         return PostResponseDto.toDto(post);
     }
 
+
     @Transactional
     public void deletePost(String email, Long id) {
-        Post post = postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        Post post = getPost(email, id);
+        if (!post.getImage().isEmpty()) {
+            imageService.delete(post.getImage());
+        }
+
         postRepository.delete(post);
+    }
+
+    private Post getPost(String email, Long id) {
+        return postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
     }
 }
