@@ -56,4 +56,10 @@ public class PostService {
         postRepository.save(post);
         return PostResponseDto.toDto(post);
     }
+
+    @Transactional
+    public void deletePost(String email, Long id) {
+        Post post = postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        postRepository.delete(post);
+    }
 }
