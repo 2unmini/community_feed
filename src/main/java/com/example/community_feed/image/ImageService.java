@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 
@@ -59,12 +61,13 @@ public class ImageService {
     }
 
     public void delete(String fileUrl) {
-        String imageKey = fileUrl.replace("https://" + bucket + ".s3.ap-northeast-2.amazonaws.com/", "");
         try {
+            URI uri = new URI(fileUrl);
+            String imageKey = uri.getPath().substring(1);
             imageKey = URLDecoder.decode(imageKey, ENCODING_TYPE);
-        } catch (UnsupportedEncodingException e) {
+            amazonS3.deleteObject(bucket, imageKey);
+        } catch (UnsupportedEncodingException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        amazonS3.deleteObject(bucket, imageKey);
     }
 }
