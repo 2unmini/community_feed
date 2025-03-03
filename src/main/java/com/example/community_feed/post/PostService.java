@@ -1,10 +1,11 @@
 package com.example.community_feed.post;
 
-import com.example.community_feed.commons.constant.UserState;
+import com.example.community_feed.image.ImageService;
 import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
 import com.example.community_feed.user.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
+    private final EntityManager entityManager;
 
     public PostResponseDto.CreateResponseDto write(String username, PostRequestDto.CreatePostDto createPostDto) {
 
@@ -46,7 +49,31 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponseDto.SearchDetailResponseDto searchDetailPost(Long id) {
-        Post post = postRepository.findByIdAndUserState(id, UserState.ACTIVE).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
+        Post post = postRepository.findByIdAndUserState(id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
         return PostResponseDto.toDetailDto(post);
+    }
+
+    @Transactional
+    public PostResponseDto.UpdateResponseDto updatePost(String email, Long id, PostRequestDto.UpdatePostDto updatePostDto) {
+        Post post = getPost(email, id);
+        post.update(updatePostDto);
+        entityManager.flush();
+
+        return PostResponseDto.toUpdateDto(post);
+    }
+
+
+    @Transactional
+    public void deletePost(String email, Long id) {
+        Post post = getPost(email, id);
+        if (!post.getImage().isEmpty()) {
+            imageService.delete(post.getImage());
+        }
+
+        postRepository.delete(post);
+    }
+
+    private Post getPost(String email, Long id) {
+        return postRepository.findByIdAndUserEmail(email, id).orElseThrow(() -> new RuntimeException("유효하지 않은 게시글 입니다"));
     }
 }

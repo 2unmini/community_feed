@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.Arrays;
 
 @Service
@@ -20,6 +24,7 @@ public class ImageService {
     private String bucket;
 
     private static final int FILE_SIZE = 5 * 1024 * 1024;
+    private static final String ENCODING_TYPE = "UTF-8";
 
     private static final String[] PERMITTED_FILE_EXTENSIONS = {"jpg", "png"};
 
@@ -53,5 +58,16 @@ public class ImageService {
         }
 
         return true;
+    }
+
+    public void delete(String fileUrl) {
+        try {
+            URI uri = new URI(fileUrl);
+            String imageKey = uri.getPath().substring(1);
+            imageKey = URLDecoder.decode(imageKey, ENCODING_TYPE);
+            amazonS3.deleteObject(bucket, imageKey);
+        } catch (UnsupportedEncodingException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
