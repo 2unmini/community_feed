@@ -43,7 +43,7 @@ public class PostQueryDslRepositoryImpl implements PostQueryDslRepository {
                 )
                 .fetchOne();
 
-        List<PostResponseDto.SearchResponseDto> postDtos = posts.stream().map(PostResponseDto::toDto).toList();
+        List<PostResponseDto.SearchResponseDto> postDtos = posts.stream().map(PostResponseDto::toSearchDto).toList();
         return new PageImpl<>(postDtos, pageable, total);
     }
 

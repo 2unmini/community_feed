@@ -38,9 +38,9 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostResponseDto.SearchResponseDto> updatePostDetail(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PostRequestDto.UpdatePostDto updatePostDto) {
-        PostResponseDto.SearchResponseDto searchResponseDto = postService.updatePost(userDetails.getUsername(), id, updatePostDto);
-        return ResponseEntity.ok().body(searchResponseDto);
+    public ResponseEntity<PostResponseDto.UpdateResponseDto> updatePostDetail(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PostRequestDto.UpdatePostDto updatePostDto) {
+        PostResponseDto.UpdateResponseDto updateResponseDto = postService.updatePost(userDetails.getUsername(), id, updatePostDto);
+        return ResponseEntity.ok().body(updateResponseDto);
     }
 
     @DeleteMapping("/{id}")

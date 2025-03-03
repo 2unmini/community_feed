@@ -38,7 +38,17 @@ public class PostResponseDto {
         private LocalDateTime updatedAt;
     }
 
-    public static PostResponseDto.SearchResponseDto toDto(Post post) {
+    @Getter
+    @Builder
+    public static class UpdateResponseDto {
+        private String title;
+        private String username;
+        private LocalDateTime createdAt;
+
+        private LocalDateTime updatedAt;
+    }
+
+    public static PostResponseDto.SearchResponseDto toSearchDto(Post post) {
         return PostResponseDto.SearchResponseDto.builder()
                 .title(post.getTitle())
                 .username(post.getUser().getEmail())
@@ -46,6 +56,15 @@ public class PostResponseDto {
                 .updatedAt(post.getUpdatedAt())
                 .build();
     }
+    public static PostResponseDto.UpdateResponseDto toUpdateDto(Post post) {
+        return PostResponseDto.UpdateResponseDto.builder()
+                .title(post.getTitle())
+                .username(post.getUser().getEmail())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .build();
+    }
+
 
     public static PostResponseDto.SearchDetailResponseDto toDetailDto(Post post) {
         return PostResponseDto.SearchDetailResponseDto.builder()

@@ -5,6 +5,7 @@ import com.example.community_feed.post.dto.PostRequestDto;
 import com.example.community_feed.post.dto.PostResponseDto;
 import com.example.community_feed.user.User;
 import com.example.community_feed.user.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
+    private final EntityManager entityManager;
 
     public PostResponseDto.CreateResponseDto write(String username, PostRequestDto.CreatePostDto createPostDto) {
 
@@ -52,11 +54,12 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto.SearchResponseDto updatePost(String email, Long id, PostRequestDto.UpdatePostDto updatePostDto) {
+    public PostResponseDto.UpdateResponseDto updatePost(String email, Long id, PostRequestDto.UpdatePostDto updatePostDto) {
         Post post = getPost(email, id);
         post.update(updatePostDto);
-        postRepository.save(post);
-        return PostResponseDto.toDto(post);
+        entityManager.flush();
+
+        return PostResponseDto.toUpdateDto(post);
     }
 
 
