@@ -26,4 +26,14 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
+
+    private Long rootId;
+
+    public Long getPostId() {
+        return this.post.getId();
+    }
+
+    public String getWriterEmail() {
+        return this.user.getEmail();
+    }
 }
