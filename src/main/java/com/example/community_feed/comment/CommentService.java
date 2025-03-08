@@ -26,13 +26,14 @@ public class CommentService {
                 .post(post)
                 .user(user)
                 .text(requestDto.getText())
+                .rootId(requestDto.getRootId())
                 .build();
         Comment savedComment = commentRepository.save(comment);
         return CreateCommentResponseDto.toDto(savedComment);
     }
 
     public List<ShowCommentResponseDto> show(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostId(postId);
+        List<Comment> comments = commentRepository.findAllByPost_Id(postId);
         return comments.stream().map(ShowCommentResponseDto::toDto).toList();
     }
 }
