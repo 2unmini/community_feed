@@ -6,7 +6,7 @@ import lombok.Getter;
 public class CreateCommentRequestDto {
 
     private Long postId;
-    private Long rootId;
+    private Long parentCommentId;
     private String text;
 
 

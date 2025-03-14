@@ -28,7 +28,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "postId")
     private Post post;
 
-    private Long rootId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comment parentCommentId;
 
     public Long getPostId() {
         return this.post.getId();

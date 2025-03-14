@@ -25,10 +25,17 @@ public class CommentController {
 
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ShowCommentResponseDto>> showComment(@RequestParam Long postId) {
         List<ShowCommentResponseDto> responseDtos = commentService.show(postId);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDtos);
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        commentService.deleteComment(userDetails.getUsername(), id);
+        return ResponseEntity.ok().body("삭제 완료 되었습니다");
+    }
+
 }
