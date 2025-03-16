@@ -2,15 +2,15 @@ package com.example.community_feed.comment;
 
 import com.example.community_feed.comment.dto.CreateCommentRequestDto;
 import com.example.community_feed.comment.dto.CreateCommentResponseDto;
+import com.example.community_feed.comment.dto.ShowCommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     private final CommentService commentService;
 
-    // todo 대댓글 작성 구현
     @PostMapping
     public ResponseEntity<CreateCommentResponseDto> writeComment(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CreateCommentRequestDto requestDto) {
         CreateCommentResponseDto responseDto = commentService.write(userDetails.getUsername(), requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
 
     }
+
+    @GetMapping
+    public ResponseEntity<List<ShowCommentResponseDto>> showComment(@RequestParam Long postId) {
+        List<ShowCommentResponseDto> responseDtos = commentService.show(postId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDtos);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        commentService.deleteComment(userDetails.getUsername(), id);
+        return ResponseEntity.ok().body("삭제 완료 되었습니다");
+    }
+
 }
