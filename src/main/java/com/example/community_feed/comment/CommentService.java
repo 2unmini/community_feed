@@ -3,12 +3,14 @@ package com.example.community_feed.comment;
 import com.example.community_feed.comment.dto.CreateCommentRequestDto;
 import com.example.community_feed.comment.dto.CreateCommentResponseDto;
 import com.example.community_feed.comment.dto.ShowCommentResponseDto;
+import com.example.community_feed.commons.constant.CommentState;
 import com.example.community_feed.post.Post;
 import com.example.community_feed.post.PostRepository;
 import com.example.community_feed.user.User;
 import com.example.community_feed.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,14 +45,18 @@ public class CommentService {
 
     public List<ShowCommentResponseDto> show(Long postId) {
         List<Comment> comments = commentRepository.findAllByPost_Id(postId);
-        return comments.stream().map(ShowCommentResponseDto::toDto).toList();
+        return comments.stream()
+                .filter(comment -> CommentState.EXISTING.equals(comment.getCommentState()))
+                .map(ShowCommentResponseDto::toDto)
+
+                .toList();
     }
 
-
+    @Transactional
     public void deleteComment(String email, Long commentId) {
         getUserByEmail(email);
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을수 없습니다"));
-        commentRepository.delete(comment);
+        comment.delete();
 
     }
 
